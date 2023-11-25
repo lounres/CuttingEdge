@@ -1,8 +1,14 @@
 package dev.lounres.cuttingEdge
 
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,9 +19,7 @@ import androidx.compose.ui.window.application
 import dev.lounres.composeLatticeCanvas.QuadroSquareLatticeCanvas
 import dev.lounres.composeLatticeCanvas.SquareLatticeCanvas
 import dev.lounres.composeLatticeCanvas.TriangleLatticeCanvas
-import dev.lounres.kone.misc.lattices.QuadroSquareLattice
-import dev.lounres.kone.misc.lattices.SquareLattice
-import dev.lounres.kone.misc.lattices.TriangleLattice
+import dev.lounres.kone.misc.lattices.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -23,6 +27,7 @@ import kotlinx.coroutines.launch
 fun main() {
     application {
         val partitionPreviewComponents: MutableList<PartitionPreviewComponent<*, *>> = remember { mutableStateListOf() }
+        val partitionWindowPreviewComponents: MutableList<PartitionPreviewComponent<*, *>> = remember { mutableStateListOf() }
 
         var isOpen by remember { mutableStateOf(true) }
         if (isOpen) Window(
@@ -30,50 +35,54 @@ fun main() {
             icon = windowIcon,
             onCloseRequest = { isOpen = !isOpen },
         ) {
-            Row(modifier = Modifier.fillMaxSize()) {
-                val latticeVariants: List<LatticeCanvasComponent<*, *, *>> = remember {
-                    listOf(
-                        createLatticeCanvasComponent(lattice = SquareLattice, latticeCanvas = SquareLatticeCanvas) {
-                            if (this.isNotEmpty())
-                                Offset(
-                                    (this.maxOf { it.coordinates.first + 1 } + this.minOf { it.coordinates.first }) / 2f,
-                                    (this.maxOf { it.coordinates.second + 1 } + this.minOf { it.coordinates.second }) / 2f
-                                )
-                            else Offset(0f, 0f)
-                        },
-                        createLatticeCanvasComponent(lattice = QuadroSquareLattice, latticeCanvas = QuadroSquareLatticeCanvas) {
-                            if (this.isNotEmpty())
-                            // TODO: Это стоит переписать корректнее.
-                                Offset(
-                                    (this.maxOf { it.coordinates.first + 1 } + this.minOf { it.coordinates.first }) / 2f,
-                                    (this.maxOf { it.coordinates.second + 1 } + this.minOf { it.coordinates.second }) / 2f
-                                )
-                            else Offset(0f, 0f)
-                        },
-                        createLatticeCanvasComponent(lattice = TriangleLattice, latticeCanvas = TriangleLatticeCanvas) {
-                            if (this.isNotEmpty())
-                            // TODO: Это стоит переписать корректнее.
-                                Offset(
-                                    (this.maxOf { it.coordinates.first + 1 } + this.minOf { it.coordinates.first }) / 2f,
-                                    (this.maxOf { it.coordinates.second + 1 } + this.minOf { it.coordinates.second }) / 2f
-                                )
-                            else Offset(0f, 0f)
-                        },
-                    )
-                }
-                var latticeVariantIndex by remember { mutableIntStateOf(0) }
-                val latticeVariant by remember { derivedStateOf { latticeVariants[latticeVariantIndex] } }
-                var partsAreConnected by remember { mutableStateOf(true) }
+            Column(modifier = Modifier.fillMaxSize()) {
+                Row(modifier = Modifier.fillMaxWidth().weight(1f)) {
+                    val latticeVariants: List<LatticeCanvasComponent<*, *, *>> = remember {
+                        listOf(
+                            createLatticeCanvasComponent(lattice = SquareLattice, latticeCanvas = SquareLatticeCanvas) {
+                                if (this.isNotEmpty())
+                                    Offset(
+                                        (this.maxOf { it.coordinates.first + 1 } + this.minOf { it.coordinates.first }) / 2f,
+                                        (this.maxOf { it.coordinates.second + 1 } + this.minOf { it.coordinates.second }) / 2f,
+                                    )
+                                else Offset(0f, 0f)
+                            },
+                            createLatticeCanvasComponent(
+                                lattice = QuadroSquareLattice,
+                                latticeCanvas = QuadroSquareLatticeCanvas
+                            ) {
+                                if (this.isNotEmpty())
+                                    Offset(
+                                        (this.maxOf { it.coordinates.first + if (it.kind == QuadroSquareKind.Left) 0.5f else 1f } + this.minOf { it.coordinates.first + if (it.kind == QuadroSquareKind.Right) 0.5f else 0f }) / 2f,
+                                        (this.maxOf { it.coordinates.second + if (it.kind == QuadroSquareKind.Down) 0.5f else 1f } + this.minOf { it.coordinates.second + if (it.kind == QuadroSquareKind.Up) 0.5f else 0f }) / 2f,
+                                    )
+                                else Offset(0f, 0f)
+                            },
+                            createLatticeCanvasComponent(
+                                lattice = TriangleLattice,
+                                latticeCanvas = TriangleLatticeCanvas
+                            ) {
+                                if (this.isNotEmpty())
+                                    Offset(
+                                        (this.maxOf { latticeCoordinatesToFieldCoordinates(Offset(it.coordinates.first.toFloat(), it.coordinates.second.toFloat())).x + if (it.kind == TriangleKind.Up) 1f else 1.5f }
+                                                + this.minOf {latticeCoordinatesToFieldCoordinates(Offset(it.coordinates.first.toFloat(), it.coordinates.second.toFloat())).x + if (it.kind == TriangleKind.Up) 0f else 0.5f }) / 2f,
+                                        (this.maxOf { latticeCoordinatesToFieldCoordinates(Offset(it.coordinates.first.toFloat(), it.coordinates.second.toFloat())).y + 0.8660254f }
+                                                + this.minOf { latticeCoordinatesToFieldCoordinates(Offset(it.coordinates.first.toFloat(), it.coordinates.second.toFloat())).y }) / 2f,
+                                    )
+                                else Offset(0f, 0f)
+                            },
+                        )
+                    }
+                    var latticeVariantIndex by remember { mutableIntStateOf(0) }
+                    val latticeVariant by remember { derivedStateOf { latticeVariants[latticeVariantIndex] } }
+                    var partsAreConnected by remember { mutableStateOf(true) }
 
-                key(latticeVariant) {
-                    latticeVariant.Content(modifier = Modifier.fillMaxHeight().weight(1f))
-                }
+                    key(latticeVariant) {
+                        latticeVariant.Content(modifier = Modifier.fillMaxHeight().weight(1f))
+                    }
 
-                Surface(
-                    modifier = Modifier.fillMaxHeight().width(IntrinsicSize.Max)
-                ) {
                     Box(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxHeight().width(IntrinsicSize.Max)
                     ) {
                         var showProcessing by remember { mutableStateOf(false) }
                         if (showProcessing) LinearProgressIndicator(
@@ -168,13 +177,14 @@ fun main() {
                                     ) {
                                         possibleNumbersOfParts.forEach { number ->
                                             DropdownMenuItem(
+                                                text = {
+                                                    Text(number.toString())
+                                                },
                                                 onClick = {
                                                     numberOfParts = number
                                                     showPossibleNumbersOfParts = false
                                                 }
-                                            ) {
-                                                Text(number.toString())
-                                            }
+                                            )
                                         }
                                     }
                                 }
@@ -209,18 +219,68 @@ fun main() {
                         }
                     }
                 }
+                if (partitionPreviewComponents.isNotEmpty()) {
+                    val lazyListState = rememberLazyListState(0)
+                    LazyRow(
+                        modifier = Modifier.fillMaxWidth().height(350.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        state = lazyListState,
+                    ) {
+                        for ((index, component) in partitionPreviewComponents.withIndex()) item(key = component) {
+                            ElevatedCard(
+                                modifier = Modifier
+                                    .size(width = 300.dp, height = 300.dp)
+                                    .padding(10.dp)
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Max).padding(10.dp)
+                                    ) {
+                                        IconButton(
+                                            modifier = Modifier.align(Alignment.CenterStart),
+                                            onClick = { partitionWindowPreviewComponents.add(component.copy()) },
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.ExitToApp,
+                                                contentDescription = null,
+                                            )
+                                        }
+                                        IconButton(
+                                            modifier = Modifier.align(Alignment.CenterEnd),
+                                            onClick = { partitionPreviewComponents.removeAt(index) },
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Close,
+                                                contentDescription = null,
+                                            )
+                                        }
+                                    }
+                                    component.Content(
+                                        modifier = Modifier.fillMaxSize()
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    HorizontalScrollbar(
+                        modifier = Modifier.fillMaxWidth(),
+                        adapter = rememberScrollbarAdapter(lazyListState),
+                    )
+                }
             }
         }
 
-        for (partitionPreviewComponent in partitionPreviewComponents) key(partitionPreviewComponent) {
+        for (component in partitionWindowPreviewComponents) key(component) {
             Window(
                 title = "CuttingEdge — Result",
                 icon = windowIcon,
                 onCloseRequest = {
-                     partitionPreviewComponents.remove(partitionPreviewComponent)
+                    partitionWindowPreviewComponents.remove(component)
                 },
             ) {
-                partitionPreviewComponent.Content(Modifier.fillMaxSize())
+                component.Content(Modifier.fillMaxSize())
             }
         }
     }

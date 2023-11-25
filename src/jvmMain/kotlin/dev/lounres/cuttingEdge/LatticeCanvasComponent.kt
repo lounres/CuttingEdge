@@ -17,13 +17,13 @@ fun <C, K, V> createLatticeCanvasComponent(
     lattice: LatticeWithConnectivity<C, K, V>,
     latticeCanvas: LatticeCanvas<C, K>,
     positions: MutableMap<Position<C, K>, Unit> = mutableStateMapOf(),
-    calculateCenter: Set<Position<C, K>>.() -> Offset
+    calculateCenter: context(LatticeCanvas<C, K>) Set<Position<C, K>>.() -> Offset,
 ) = LatticeCanvasComponent(
     lattice = lattice,
     latticeCanvas = latticeCanvas,
     positions = positions,
     latticeCanvasState = LatticeCanvasState(),
-    calculateCenter = calculateCenter,
+    calculateCenter = { calculateCenter(latticeCanvas, this) },
 )
 
 class LatticeCanvasComponent<C, K, V>(

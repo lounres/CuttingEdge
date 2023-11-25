@@ -3,7 +3,6 @@ package dev.lounres.cuttingEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import dev.lounres.composeLatticeCanvas.LatticeCanvas
 import dev.lounres.composeLatticeCanvas.LatticeCanvasState
@@ -26,6 +25,12 @@ class PartitionPreviewComponent<C, K>(
     val parts: List<Set<Cell<C, K, Nothing>>>,
     val figureCenter: Offset?,
 ) {
+    fun copy(): PartitionPreviewComponent<C, K> = PartitionPreviewComponent(
+        latticeCanvas = latticeCanvas,
+        parts = parts,
+        figureCenter = figureCenter,
+    )
+
     @Composable
     fun Content(
         modifier: Modifier = Modifier,
@@ -33,10 +38,7 @@ class PartitionPreviewComponent<C, K>(
         zoomMin: Float = ZOOM_MIN,
         zoomMax: Float = ZOOM_MAX,
         latticeCanvasState: LatticeCanvasState = rememberLatticeCanvasState(
-            fieldOffset = latticeCanvas.latticeCoordinatesToFieldCoordinates(
-                latticeOffset = figureCenter ?: Offset(0f, 0f),
-                tileActualSize = LocalDensity.current.run { tileSize.toPx() }
-            ),
+            fieldOffset = figureCenter ?: Offset(0f, 0f),
         ),
     ) {
         latticeCanvas.Content(
