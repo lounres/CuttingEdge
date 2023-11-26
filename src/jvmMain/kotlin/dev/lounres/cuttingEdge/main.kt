@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,8 +21,11 @@ import dev.lounres.composeLatticeCanvas.TriangleLatticeCanvas
 import dev.lounres.kone.misc.lattices.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 
 
+@OptIn(ExperimentalResourceApi::class)
 fun main() {
     application {
         val partitionPreviewComponents: MutableList<PartitionPreviewComponent<*, *>> = remember { mutableStateListOf() }
@@ -232,34 +234,30 @@ fun main() {
                                     .size(width = 300.dp, height = 300.dp)
                                     .padding(10.dp)
                             ) {
-                                Column(
+                                Box(
                                     modifier = Modifier.fillMaxSize()
                                 ) {
-                                    Box(
-                                        modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Max).padding(10.dp)
-                                    ) {
-                                        IconButton(
-                                            modifier = Modifier.align(Alignment.CenterStart),
-                                            onClick = { partitionWindowPreviewComponents.add(component.copy()) },
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.ExitToApp,
-                                                contentDescription = null,
-                                            )
-                                        }
-                                        IconButton(
-                                            modifier = Modifier.align(Alignment.CenterEnd),
-                                            onClick = { partitionPreviewComponents.removeAt(index) },
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Close,
-                                                contentDescription = null,
-                                            )
-                                        }
-                                    }
                                     component.Content(
                                         modifier = Modifier.fillMaxSize()
                                     )
+                                    IconButton(
+                                        modifier = Modifier.align(Alignment.TopStart),
+                                        onClick = { partitionWindowPreviewComponents.add(component.copy()) },
+                                    ) {
+                                        Icon(
+                                            painter = painterResource("icons/open_in_new.png"),
+                                            contentDescription = null,
+                                        )
+                                    }
+                                    IconButton(
+                                        modifier = Modifier.align(Alignment.TopEnd),
+                                        onClick = { partitionPreviewComponents.removeAt(index) },
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Close,
+                                            contentDescription = null,
+                                        )
+                                    }
                                 }
                             }
                         }
