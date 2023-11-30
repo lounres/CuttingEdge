@@ -4,9 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
+import ca.gosyer.appdirs.AppDirs
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import java.nio.file.Path
+import kotlin.io.path.Path
 
+
+val applicationDirectories = AppDirs(
+    appName = "CuttingEdge",
+    appAuthor = "dev.lounres",
+)
+
+val historyFilePath: Path = Path(applicationDirectories.getUserDataDir(roaming = true)).resolve("history.json")
 
 @OptIn(ExperimentalResourceApi::class)
 val windowIcon: Painter @Composable get() = painterResource("MCCME-logo3.png")

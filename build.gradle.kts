@@ -3,6 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     with(libs.plugins) {
         alias(kotlin.multiplatform)
+        alias(kotlinx.serialization)
         alias(compose)
     }
 }
@@ -39,8 +40,15 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation(kone.misc.lattices)
-                implementation(kone.enumerativeCombinatorics)
+//                implementation(kone.enumerativeCombinatorics)
                 implementation("dev.lounres:ComposeLatticeCanvas:${properties["koneVersion"]}")
+
+                implementation(libs.kotlinx.serialization.core)
+
+                implementation("ca.gosyer:kotlin-multiplatform-appdirs:1.1.1")
+
+                implementation(libs.decompose)
+                implementation(libs.decompose.extensions.compose.multiplatform)
 
                 // Compose
                 implementation(compose.runtime)

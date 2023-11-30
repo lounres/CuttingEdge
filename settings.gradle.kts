@@ -10,10 +10,10 @@ val koneVersion: String by projectProperties
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositories {
-        gradlePluginPortal()
         mavenCentral()
-        mavenLocal()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://repo.kotlin.link")
+        mavenLocal()
     }
 
     versionCatalogs {
