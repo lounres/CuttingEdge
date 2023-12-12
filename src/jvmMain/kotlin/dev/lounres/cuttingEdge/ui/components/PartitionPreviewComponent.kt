@@ -1,4 +1,4 @@
-package dev.lounres.cuttingEdge
+package dev.lounres.cuttingEdge.ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,18 +7,12 @@ import androidx.compose.ui.unit.Dp
 import dev.lounres.composeLatticeCanvas.LatticeCanvas
 import dev.lounres.composeLatticeCanvas.LatticeCanvasState
 import dev.lounres.composeLatticeCanvas.rememberLatticeCanvasState
+import dev.lounres.cuttingEdge.DEFAULT_TILE_SIZE
+import dev.lounres.cuttingEdge.ZOOM_MAX
+import dev.lounres.cuttingEdge.ZOOM_MIN
+import dev.lounres.cuttingEdge.colors
 import dev.lounres.kone.misc.lattices.Cell
 
-
-fun <C, K> createPartitionPreviewComponent(
-    latticeCanvas: LatticeCanvas<C, K>,
-    parts: List<Set<Cell<C, K, Nothing>>>,
-    figureCenter: Offset?,
-) = PartitionPreviewComponent(
-    latticeCanvas = latticeCanvas,
-    parts = parts,
-    figureCenter = figureCenter
-)
 
 class PartitionPreviewComponent<C, K>(
     val latticeCanvas: LatticeCanvas<C, K>,
