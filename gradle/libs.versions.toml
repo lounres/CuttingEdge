@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.20"
+kotlin = "2.0.0-Beta1"
 
 kotlinx-coroutines = "1.7.3"
 kotlinx-atomicfu = "0.23.0"
@@ -12,7 +12,8 @@ kotlinx-knit = "0.4.0"
 
 kotest = "5.7.2"
 dokka = "1.9.0"
-compose = "1.5.10"
+compose = "1.5.11"
+decompose = "2.2.0-beta02"
 
 [plugins]
 # Kotlin plugins
@@ -23,6 +24,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 allopen = { id = "org.jetbrains.kotlin.plugin.allopen", version.ref = "kotlin" }
 
 # kotlinx plugins
+kotlinx-atomicfu = { id = "org.jetbrains.kotlin.plugin.atomicfu", version.ref = "kotlin" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlinx-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kotlinx-kover" }
 kotlinx-benchmark = { id = "org.jetbrains.kotlinx.benchmark", version.ref = "kotlinx-benchmark" }
@@ -34,6 +36,10 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose"}
 
 [libraries]
+# Decompose
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-extensions-compose-multiplatform = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
+
 # kotlinx.coroutines
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-debug = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-debug", version.ref = "kotlinx-coroutines" }
