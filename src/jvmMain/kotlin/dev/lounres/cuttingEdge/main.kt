@@ -18,7 +18,6 @@ import androidx.compose.ui.window.application
 import dev.lounres.composeLatticeCanvas.QuadroSquareLatticeCanvas
 import dev.lounres.composeLatticeCanvas.SquareLatticeCanvas
 import dev.lounres.composeLatticeCanvas.TriangleLatticeCanvas
-import dev.lounres.cuttingEdge.ui.components.*
 import dev.lounres.kone.misc.lattices.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
