@@ -1,23 +1,26 @@
-package dev.lounres.cuttingEdge.components.fake
+package dev.lounres.cuttingEdge.components.mainWindow
 
 import dev.lounres.cuttingEdge.allLatticeVariants
-import dev.lounres.cuttingEdge.components.BottomCardPreviewListComponent
-import dev.lounres.cuttingEdge.components.MainPageComponent
-import dev.lounres.cuttingEdge.components.MainPageControlPaneComponent
-import dev.lounres.cuttingEdge.components.MainPageLatticeComponent
-import dev.lounres.cuttingEdge.ui.components.LatticeCanvasComponent
-import dev.lounres.cuttingEdge.ui.components.PartitionPreviewComponent
-import kotlinx.coroutines.CoroutineScope
+import dev.lounres.cuttingEdge.components.mainWindow.bottomCardPreviewList.BottomCardPreviewListComponent
+import dev.lounres.cuttingEdge.components.mainWindow.bottomCardPreviewList.FakeBottomCardPreviewListComponent
+import dev.lounres.cuttingEdge.components.mainWindow.controlPane.FakeMainPageControlPaneComponent
+import dev.lounres.cuttingEdge.components.mainWindow.controlPane.MainPageControlPaneComponent
+import dev.lounres.cuttingEdge.components.mainWindow.lattice.FakeMainPageLatticeComponent
+import dev.lounres.cuttingEdge.components.mainWindow.lattice.MainPageLatticeComponent
+import dev.lounres.cuttingEdge.uiComponents.LatticeCanvasComponent
+import dev.lounres.cuttingEdge.uiComponents.PartitionPreviewComponent
 
 
-class FakeMainPageComponent(
+class FakeMainWindowComponent(
     latticeVariants: List<LatticeCanvasComponent<*, *, *>> = allLatticeVariants,
     latticeVariantIndex: Int = 0,
     showProcessing: Boolean = false,
     partsAreConnected: Boolean = true,
     numberOfParts: Int = 1,
     partitionCardPreviewComponents: List<PartitionPreviewComponent<*, *>> = emptyList()
-): MainPageComponent {
+): MainWindowComponent {
+    override val receivePartitionCardPreviews: suspend () -> Unit = {}
+
     override val mainPageLatticeComponent: MainPageLatticeComponent = FakeMainPageLatticeComponent(
         latticeVariants = latticeVariants,
         latticeVariantIndex = latticeVariantIndex
@@ -33,5 +36,5 @@ class FakeMainPageComponent(
         partitionCardPreviewComponents = partitionCardPreviewComponents,
     )
 
-    override fun launchPartitionsCollection(coroutineScope: CoroutineScope) {}
+    override val onCloseRequest: () -> Unit = {}
 }

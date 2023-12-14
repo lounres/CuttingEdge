@@ -1,8 +1,7 @@
-package dev.lounres.cuttingEdge.components.real
+package dev.lounres.cuttingEdge.components.mainWindow.controlPane
 
 import com.arkivanov.decompose.value.Value
-import dev.lounres.cuttingEdge.components.MainPageControlPaneComponent
-import dev.lounres.cuttingEdge.ui.components.LatticeCanvasComponent
+import dev.lounres.cuttingEdge.uiComponents.LatticeCanvasComponent
 import kotlinx.coroutines.CoroutineScope
 
 

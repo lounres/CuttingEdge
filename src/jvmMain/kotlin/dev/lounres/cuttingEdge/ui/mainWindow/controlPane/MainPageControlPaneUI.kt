@@ -1,4 +1,4 @@
-package dev.lounres.cuttingEdge.ui
+package dev.lounres.cuttingEdge.ui.mainWindow.controlPane
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
@@ -8,9 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.lounres.cuttingEdge.components.MainPageControlPaneComponent
-import dev.lounres.cuttingEdge.components.fake.FakeMainPageControlPaneComponent
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import dev.lounres.cuttingEdge.components.mainWindow.controlPane.MainPageControlPaneComponent
+import dev.lounres.cuttingEdge.components.mainWindow.controlPane.FakeMainPageControlPaneComponent
 import dev.lounres.cuttingEdge.possibleNumbersOfParts
 import kotlinx.coroutines.Dispatchers
 

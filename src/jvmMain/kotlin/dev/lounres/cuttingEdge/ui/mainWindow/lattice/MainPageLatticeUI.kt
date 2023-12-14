@@ -1,13 +1,13 @@
-package dev.lounres.cuttingEdge.ui
+package dev.lounres.cuttingEdge.ui.mainWindow.lattice
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import dev.lounres.cuttingEdge.components.MainPageLatticeComponent
-import dev.lounres.cuttingEdge.components.fake.FakeMainPageLatticeComponent
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import dev.lounres.cuttingEdge.components.mainWindow.lattice.MainPageLatticeComponent
+import dev.lounres.cuttingEdge.components.mainWindow.lattice.FakeMainPageLatticeComponent
 
 
 @Preview

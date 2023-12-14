@@ -9,8 +9,8 @@ import ca.gosyer.appdirs.AppDirs
 import dev.lounres.composeLatticeCanvas.QuadroSquareLatticeCanvas
 import dev.lounres.composeLatticeCanvas.SquareLatticeCanvas
 import dev.lounres.composeLatticeCanvas.TriangleLatticeCanvas
-import dev.lounres.cuttingEdge.ui.components.LatticeCanvasComponent
-import dev.lounres.cuttingEdge.ui.components.createLatticeCanvasComponent
+import dev.lounres.cuttingEdge.uiComponents.LatticeCanvasComponent
+import dev.lounres.cuttingEdge.uiComponents.createLatticeCanvasComponent
 import dev.lounres.kone.misc.lattices.*
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource

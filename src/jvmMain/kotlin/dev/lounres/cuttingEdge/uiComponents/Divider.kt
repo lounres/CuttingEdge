@@ -1,4 +1,4 @@
-package dev.lounres.cuttingEdge
+package dev.lounres.cuttingEdge.uiComponents
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

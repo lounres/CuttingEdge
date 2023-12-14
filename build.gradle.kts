@@ -47,8 +47,8 @@ kotlin {
 
                 implementation("ca.gosyer:kotlin-multiplatform-appdirs:1.1.1")
 
-//                implementation(libs.decompose)
-//                implementation(libs.decompose.extensions.compose.multiplatform)
+                implementation(libs.decompose)
+                implementation(libs.decompose.extensions.compose.multiplatform)
 
                 // Compose
                 implementation(compose.runtime)

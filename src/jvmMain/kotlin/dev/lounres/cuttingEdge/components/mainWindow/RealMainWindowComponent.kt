@@ -1,25 +1,31 @@
-package dev.lounres.cuttingEdge.components.real
+package dev.lounres.cuttingEdge.components.mainWindow
 
 import androidx.compose.runtime.mutableStateListOf
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.update
-import dev.lounres.cuttingEdge.components.BottomCardPreviewListComponent
-import dev.lounres.cuttingEdge.components.MainPageComponent
-import dev.lounres.cuttingEdge.components.MainPageControlPaneComponent
-import dev.lounres.cuttingEdge.components.MainPageLatticeComponent
-import dev.lounres.cuttingEdge.ui.components.LatticeCanvasComponent
-import dev.lounres.cuttingEdge.ui.components.PartitionPreviewComponent
-import kotlinx.coroutines.CoroutineScope
+import dev.lounres.cuttingEdge.components.mainWindow.bottomCardPreviewList.BottomCardPreviewListComponent
+import dev.lounres.cuttingEdge.components.mainWindow.bottomCardPreviewList.RealBottomCardPreviewListComponent
+import dev.lounres.cuttingEdge.components.mainWindow.controlPane.MainPageControlPaneComponent
+import dev.lounres.cuttingEdge.components.mainWindow.controlPane.RealMainPageControlPaneComponent
+import dev.lounres.cuttingEdge.components.mainWindow.lattice.MainPageLatticeComponent
+import dev.lounres.cuttingEdge.components.mainWindow.lattice.RealMainPageLatticeComponent
+import dev.lounres.cuttingEdge.uiComponents.LatticeCanvasComponent
+import dev.lounres.cuttingEdge.uiComponents.PartitionPreviewComponent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 
 
-class RealMainPageComponent(
+class RealMainWindowComponent(
     val latticeVariants: List<LatticeCanvasComponent<*, *, *>>,
-    partitionWindowPreviewComponents: MutableList<PartitionPreviewComponent<*, *>>
-): MainPageComponent {
+    partitionWindowPreviewComponents: MutableList<PartitionPreviewComponent<*, *>>,
+    override val onCloseRequest: () -> Unit,
+): MainWindowComponent {
     val partitionChannel: Channel<PartitionPreviewComponent<*, *>> = Channel(Channel.UNLIMITED)
-    val partitionCardPreviewComponents: MutableList<PartitionPreviewComponent<*, *>> = mutableStateListOf()
+    val partitionCardPreviews: MutableList<PartitionPreviewComponent<*, *>> = mutableStateListOf()
+
+    override val receivePartitionCardPreviews: suspend () -> Unit = {
+        while (true) partitionCardPreviews.add(partitionChannel.receive())
+    }
 
     val latticeVariantIndex: MutableValue<Int> = MutableValue(0)
     val showProcessing: MutableValue<Boolean> = MutableValue(false)
@@ -56,13 +62,7 @@ class RealMainPageComponent(
 
     override val bottomCardPreviewListComponent: BottomCardPreviewListComponent =
         RealBottomCardPreviewListComponent(
-            partitionCardPreviewComponents = partitionCardPreviewComponents,
+            partitionCardPreviewComponents = partitionCardPreviews,
             partitionWindowPreviewComponents = partitionWindowPreviewComponents,
         )
-
-    override fun launchPartitionsCollection(coroutineScope: CoroutineScope) {
-        coroutineScope.launch {
-            while (true) partitionCardPreviewComponents.add(partitionChannel.receive())
-        }
-    }
 }

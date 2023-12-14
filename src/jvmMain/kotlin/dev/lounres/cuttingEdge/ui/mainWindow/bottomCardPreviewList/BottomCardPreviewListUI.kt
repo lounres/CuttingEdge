@@ -1,4 +1,4 @@
-package dev.lounres.cuttingEdge.ui
+package dev.lounres.cuttingEdge.ui.mainWindow.bottomCardPreviewList
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.HorizontalScrollbar
@@ -18,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.dp
 import dev.lounres.composeLatticeCanvas.TriangleLatticeCanvas
-import dev.lounres.cuttingEdge.components.BottomCardPreviewListComponent
-import dev.lounres.cuttingEdge.components.fake.FakeBottomCardPreviewListComponent
-import dev.lounres.cuttingEdge.ui.components.PartitionPreviewComponent
-import dev.lounres.cuttingEdge.ui.components.VerticalDivider
+import dev.lounres.cuttingEdge.components.mainWindow.bottomCardPreviewList.BottomCardPreviewListComponent
+import dev.lounres.cuttingEdge.components.mainWindow.bottomCardPreviewList.FakeBottomCardPreviewListComponent
+import dev.lounres.cuttingEdge.uiComponents.PartitionPreviewComponent
+import dev.lounres.cuttingEdge.uiComponents.VerticalDivider
 import dev.lounres.kone.misc.lattices.Cell
 import dev.lounres.kone.misc.lattices.TriangleKind
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -81,7 +81,7 @@ fun BottomCardPreviewListUI(
             }
             IconButton(
                 modifier = Modifier.padding(2.dp),
-                onClick = component::onClearPartitionCardPreviewComponents,
+                onClick = component.onClearPartitionCardPreviewComponents,
             ) {
                 Icon(
                     painter = painterResource("icons/delete.png"),

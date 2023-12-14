@@ -1,13 +1,10 @@
 package dev.lounres.cuttingEdge
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import dev.lounres.cuttingEdge.components.real.RealMainPageComponent
-import dev.lounres.cuttingEdge.ui.MainPageUI
-import dev.lounres.cuttingEdge.ui.components.PartitionPreviewComponent
+import com.arkivanov.decompose.DefaultComponentContext
+import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import dev.lounres.cuttingEdge.components.RealRootComponent
+import dev.lounres.cuttingEdge.ui.RootUI
 
 
 fun main() {
@@ -17,39 +14,13 @@ fun main() {
 //        historyFilePath.writer().use { it.write("[]") }
 //    }
 
+    val rootComponent = RealRootComponent(
+        componentContext = DefaultComponentContext(
+            lifecycle = LifecycleRegistry(),
+        )
+    )
+
     application {
-        val partitionWindowPreviewComponents: MutableList<PartitionPreviewComponent<*, *>> = remember { mutableStateListOf() }
-        val mainPageComponent = remember {
-            RealMainPageComponent(
-                latticeVariants = allLatticeVariants,
-                partitionWindowPreviewComponents = partitionWindowPreviewComponents
-            )
-        }
-
-        var isOpen by remember { mutableStateOf(true) }
-        if (isOpen) {
-
-            Window(
-                title = "CuttingEdge — Canvas",
-                icon = windowIcon,
-                onCloseRequest = { isOpen = !isOpen },
-            ) {
-                MainPageUI(
-                    component = mainPageComponent
-                )
-            }
-        }
-
-        for (component in partitionWindowPreviewComponents) key(component) {
-            Window(
-                title = "CuttingEdge — Result",
-                icon = windowIcon,
-                onCloseRequest = {
-                    partitionWindowPreviewComponents.remove(component)
-                },
-            ) {
-                component.Content(Modifier.fillMaxSize())
-            }
-        }
+        RootUI(rootComponent)
     }
 }

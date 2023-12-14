@@ -1,4 +1,4 @@
-package dev.lounres.cuttingEdge.ui.components
+package dev.lounres.cuttingEdge.uiComponents
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
